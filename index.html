@@ -1,0 +1,788 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Sharvin Viren Bhoje | Warhammer 40k Techmarine</title>
+    <!-- Google Fonts: Syne (800) + DM Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        /* WARHAMMER 40K GRIMDARK THEME */
+        :root {
+            --bg-dark: #0a0507;
+            --bg-card: rgba(20, 12, 15, 0.85);
+            --primary-white: #e6d5b8;
+            --accent-red: #b81c2c;
+            --accent-gold: #d4af37;
+            --text-muted: #b89a7a;
+            --border-glass: rgba(180, 50, 50, 0.4);
+            --glow-red: rgba(184, 28, 44, 0.6);
+            --glow-gold: rgba(212, 175, 55, 0.5);
+            --transition-smooth: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            color: var(--primary-white);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Warhammer texture overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" opacity="0.08"><path fill="%23b81c2c" d="M400,100 L450,200 L550,200 L500,300 L550,400 L450,400 L400,500 L350,400 L250,400 L300,300 L250,200 L350,200 Z" stroke="%23d4af37" stroke-width="2"/><circle cx="400" cy="350" r="40" fill="none" stroke="%23d4af37" stroke-width="1.5"/><path d="M400 300 L410 340 L450 340 L420 360 L430 400 L400 380 L370 400 L380 360 L350 340 L390 340 Z" fill="%23b81c2c"/></svg>');
+            background-repeat: repeat;
+            background-size: 80px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        /* POWER SWORD CURSOR */
+        .cursor-power-sword {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) rotate(45deg);
+            filter: drop-shadow(0 0 8px #00ffff) drop-shadow(0 0 12px #ffaa00);
+            transition: transform 0.08s linear;
+        }
+        .cursor-power-sword::before {
+            content: "⚔️";
+            font-size: 32px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            text-shadow: 0 0 8px cyan, 0 0 12px gold;
+        }
+        .cursor-ring-glow {
+            position: fixed;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold);
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(212,175,55,0.2), transparent);
+            transition: 0.12s ease-out;
+            box-shadow: 0 0 10px red;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1e0b0f; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 4px; }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 5, 7, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 0.9rem 0;
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e6d5b8, var(--accent-gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-white);
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .hamburger { display: none; font-size: 1.8rem; cursor: pointer; color: var(--accent-gold); }
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed; top: 65px; left: -100%; flex-direction: column;
+                background: rgba(8,4,6,0.98); backdrop-filter: blur(16px); width: 70%;
+                height: calc(100vh - 65px); padding: 2rem; gap: 2rem; transition: left 0.3s;
+                z-index: 99; border-right: 2px solid var(--accent-gold);
+            }
+            .nav-links.active { left: 0; }
+            .hamburger { display: block; }
+            .container { padding: 0 1.25rem; }
+        }
+
+        section {
+            padding: 5rem 0;
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.9s ease, transform 0.7s ease;
+        }
+        section.visible { opacity: 1; transform: translateY(0); }
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            border-left: 6px solid var(--accent-red);
+            padding-left: 1rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 3px #b81c2c;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            min-height: 85vh;
+            position: relative;
+        }
+        .hero-content {
+            flex: 2;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-profile-bg {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 320px;
+            height: 320px;
+            z-index: 1;
+            opacity: 0.9;
+            pointer-events: none;
+        }
+        .flaming-gear {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(from 0deg, #ff6600, #ffcc00, #ff3300, #ff6600);
+            mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+            -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 8px;
+            animation: spinGear 6s linear infinite;
+            filter: drop-shadow(0 0 12px orange);
+            border-radius: 20px;
+        }
+        .flaming-gear::after {
+            content: "⚙️";
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: gold;
+            text-shadow: 0 0 20px red;
+            background: transparent;
+            pointer-events: none;
+        }
+        @keyframes spinGear {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .hero-profile-bg img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 88%;
+            height: 88%;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 3px solid var(--accent-gold);
+            background: #2a1414;
+            box-shadow: 0 0 30px rgba(184,28,44,0.8);
+        }
+        .floating-badge {
+            position: absolute;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-red);
+            animation: floatBadge 4s infinite alternate;
+            z-index: 3;
+            white-space: nowrap;
+        }
+        @keyframes floatBadge { 0% { transform: translateY(0px); } 100% { transform: translateY(-12px); } }
+
+        .hero h1 { font-size: 3.8rem; font-family: 'Syne'; animation: slideUpFade 0.7s; color: #f5e2c0; }
+        .typewriter { font-size: 1.8rem; margin: 0.8rem 0; color: var(--accent-gold); font-weight: 600; height: 3rem; }
+        @keyframes slideUpFade { from { opacity:0; transform:translateY(40px);} to { opacity:1; transform:translateY(0);} }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 1rem 1.8rem;
+            border: 1px solid var(--border-glass);
+            transition: var(--transition-smooth);
+            text-align: center;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 12px var(--glow-red);
+            border-color: var(--accent-gold);
+        }
+        .stat-card .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: 'Syne';
+            color: var(--accent-gold);
+        }
+        .stat-card .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Academic Stats specific styling */
+        .academic-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .academic-card {
+            background: linear-gradient(145deg, #1f1218, #140a0e);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 1.5rem 2rem;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            border: 1px solid var(--accent-gold);
+            transition: 0.3s;
+        }
+        .academic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--glow-red);
+            border-color: var(--accent-red);
+        }
+        .academic-card .percentage {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'Syne';
+            color: var(--accent-gold);
+            line-height: 1.2;
+        }
+        .academic-card .exam-name {
+            font-size: 1rem;
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+        .academic-card .exam-detail {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .skills-grid, .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.8rem; }
+        .skill-card, .project-card {
+            background: var(--bg-card); backdrop-filter: blur(10px); border-radius: 24px;
+            padding: 1.5rem; border: 1px solid var(--border-glass); transition: 0.3s;
+        }
+        .skill-card:hover, .project-card:hover { transform: translateY(-8px); border-color: var(--accent-gold); box-shadow: 0 15px 35px rgba(184,28,44,0.4); }
+
+        .hobby-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        .hobby-block {
+            background: linear-gradient(145deg, #1f1218, #140a0e);
+            border-radius: 32px;
+            padding: 1.8rem;
+            text-align: center;
+            border: 1px solid var(--accent-gold);
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        .hobby-block:hover { transform: scale(1.02); box-shadow: 0 0 18px var(--glow-red); border-color: var(--accent-red); }
+        .hobby-block i { font-size: 3rem; color: var(--accent-gold); margin-bottom: 1rem; }
+        .hobby-block h3 { font-size: 1.7rem; font-family: 'Syne'; margin: 0.5rem 0; }
+        .hobby-block p { color: #cbbf91; font-size: 0.9rem; }
+
+        .certificate-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            justify-content: flex-start;
+        }
+        .cert-card {
+            background: #1f1218;
+            border: 1px solid var(--accent-gold);
+            border-radius: 20px;
+            padding: 1.2rem;
+            width: 220px;
+            text-align: center;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .cert-card:hover { background: #2f1a20; transform: translateY(-5px); box-shadow: 0 0 15px gold; }
+        .cert-card i { font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 10px; }
+        .cert-card h4 { font-size: 1rem; margin: 8px 0; font-weight: 600; }
+        .cert-card p { font-size: 0.75rem; color: var(--text-muted); }
+
+        .timeline { position: relative; padding-left: 2rem; }
+        .timeline-item { margin-bottom: 2rem; border-left: 2px solid var(--accent-gold); padding-left: 1.5rem; position: relative; }
+        .timeline-item::before { content: '⛧'; color: var(--accent-red); position: absolute; left: -12px; top: -2px; font-size: 1.2rem; }
+
+        .badge-pill { display: inline-block; background: rgba(184,28,44,0.25); padding: 5px 14px; border-radius: 40px; font-size: 0.8rem; margin: 0.2rem; border: 1px solid var(--accent-red); }
+        .gold-pill { background: rgba(212,175,55,0.2); border-color: var(--accent-gold); color: var(--accent-gold); }
+
+        .btn { background: transparent; border: 2px solid var(--accent-red); padding: 10px 28px; border-radius: 40px; color: white; font-weight: bold; transition: 0.3s; cursor: pointer; display: inline-block; text-decoration: none; font-size: 0.9rem;}
+        .btn:hover { background: var(--accent-red); color: #0a0507; box-shadow: 0 0 12px #b81c2c; }
+
+        .contact-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 2rem;
+            border: 1px solid var(--accent-gold);
+        }
+        .contact-info { flex: 1; min-width: 200px; }
+        .contact-form-container { flex: 1.5; }
+        .contact-form-container input, .contact-form-container textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--accent-gold);
+            border-radius: 20px;
+            padding: 12px 18px;
+            margin-bottom: 1rem;
+            color: #f0e2c5;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .contact-form-container input:focus, .contact-form-container textarea:focus {
+            outline: none;
+            border-color: var(--accent-red);
+            box-shadow: 0 0 8px var(--glow-red);
+        }
+        .social-icons a {
+            color: var(--primary-white);
+            margin: 0 12px 0 0;
+            font-size: 1.8rem;
+            display: inline-block;
+            transition: 0.2s;
+        }
+        .social-icons a:hover { color: var(--accent-gold); transform: scale(1.1); }
+
+        .back-to-top { position: fixed; bottom: 30px; right: 30px; background: var(--accent-red); color: #0a0507; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; opacity: 0; transition: 0.2s; z-index: 98; border: none; box-shadow: 0 0 8px gold; }
+        
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.96);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.25s;
+        }
+        .lightbox.active { visibility: visible; opacity: 1; }
+        .lightbox-content {
+            max-width: 85%;
+            max-height: 85%;
+            background: #1f1216;
+            padding: 1rem;
+            border-radius: 24px;
+            border: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 16px;
+            object-fit: contain;
+        }
+        .cert-title-lightbox {
+            margin-top: 12px;
+            color: var(--accent-gold);
+            font-family: 'Syne';
+        }
+        .close-lightbox-btn {
+            margin-top: 12px;
+            background: var(--accent-red);
+            border: none;
+            border-radius: 40px;
+            padding: 8px 24px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        footer { text-align: center; padding: 2rem; border-top: 1px solid var(--accent-gold); }
+        .flex-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        hr { border-color: var(--accent-gold); margin: 1rem 0; }
+        .inline-link { margin-top: 12px; display: inline-block; }
+        .upload-note { font-size: 0.7rem; color: #9e7e5e; margin-top: 6px; display: block; }
+        .story-text {
+            background: rgba(212,175,55,0.08);
+            border-left: 3px solid var(--accent-gold);
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            font-style: italic;
+            color: #d4c5a3;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-profile-bg { width: 220px; height: 220px; opacity: 0.65; right: -20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .floating-badge { font-size: 0.6rem; padding: 4px 10px; }
+            .academic-card .percentage { font-size: 1.8rem; }
+            .academic-card { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- POWER SWORD CURSOR + RING -->
+<div class="cursor-power-sword"></div>
+<div class="cursor-ring-glow"></div>
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <div class="logo">⟡ SHARVIN ⟡</div>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
+            <li><a href="#education" class="nav-link">Education</a></li>
+            <li><a href="#achievements" class="nav-link">Honours</a></li>
+            <li><a href="#hobbies" class="nav-link">Hobbies</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container">
+    <section id="home">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Sharvin Viren Bhoje</h1>
+                <div class="typewriter" id="typewriter"></div>
+                <p class="hero-desc">Techmarine of the Omnissiah | IoT Archmagos | Forging code & circuits in the grim darkness of the 41st millennium.</p>
+                <div class="stats-grid">
+                    <div class="stat-card"><i class="fas fa-map-marker-alt"></i> Pune, Segmentum Solar</div>
+                    <div class="stat-card"><i class="fab fa-github"></i> ghostpelt86</div>
+                    <div class="stat-card"><i class="fab fa-linkedin"></i> sharvin-bhoje</div>
+                </div>
+            </div>
+            <div class="hero-profile-bg">
+                <div class="flaming-gear"></div>
+                <img src="profilePic.jpg" alt="Sharvin">
+                <div class="floating-badge" style="top: -15px; right: -10px;">⚔️ Techmarine</div>
+                <div class="floating-badge" style="bottom: 0px; left: -30px;">🎾 District Tennis</div>
+                <div class="floating-badge" style="top: 30%; left: -35px;">🛡️ Forge Master</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section with Personal Story and Academic Stats -->
+    <section id="about">
+        <h2 class="section-title">About The Warlord</h2>
+        <p style="font-size:1.1rem; max-width:800px; color:#cbbf91;">I am a technomancer in training, bridging hardware and software to build grimdark solutions. Currently forging my path in B.Tech Electronics & Telecommunication at PCCOE. My creed: innovate with the fury of a bolter, precision of a power sword.</p>
+        
+        <!-- Personal Story Block -->
+        <div class="story-text">
+            <i class="fas fa-quote-left" style="color: var(--accent-gold); margin-right: 8px;"></i>
+            My life started to change when I was in 10th class. Before that, I was an introverted guy with nothing too special about him, but 10th was different. That year has made me what I am today. It taught me to be a leader and gain confidence to speak freely.
+            <i class="fas fa-quote-right" style="color: var(--accent-gold); margin-left: 8px;"></i>
+        </div>
+
+        <!-- Academic Achievement Blocks -->
+        <div class="academic-stats">
+            <div class="academic-card">
+                <div class="percentage">97.4%</div>
+                <div class="exam-name">CBSE (SSC)</div>
+                <div class="exam-detail">Board Examination</div>
+            </div>
+            <div class="academic-card">
+                <div class="percentage">80%</div>
+                <div class="exam-name">HSC</div>
+                <div class="exam-detail">Higher Secondary Certificate</div>
+            </div>
+            <div class="academic-card">
+                <div class="percentage">9.0</div>
+                <div class="exam-name">SGPA</div>
+                <div class="exam-detail">Last Semester - B.Tech</div>
+            </div>
+        </div>
+
+        <div class="flex-wrap" style="margin: 1rem 0;">
+            <span class="badge-pill"><i class="fas fa-microchip"></i> ESP32</span>
+            <span class="badge-pill"><i class="fas fa-chart-line"></i> DSA Crusade</span>
+            <span class="badge-pill gold-pill"><i class="fas fa-tennis-ball"></i> Lawn Tennis</span>
+            <span class="badge-pill gold-pill"><i class="fas fa-dice-d6"></i> Warhammer 40k</span>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card"><i class="fas fa-calendar-alt"></i> 2025 - Present <br>B.Tech PCCOE</div>
+            <div class="stat-card"><i class="fas fa-code"></i> 13+ <br>Projects</div>
+            <div class="stat-card"><i class="fas fa-trophy"></i> 5th Rank <br>Brain Dasher</div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">Technical Arsenal</h2>
+        <div class="skills-grid">
+            <div class="skill-card"><i class="fab fa-cuttlefish"></i> <h3>C++ / C</h3><p>Low-level sorcery, DSA fundamentals, embedded logic</p></div>
+            <div class="skill-card"><i class="fas fa-microchip"></i> <h3>IoT & Hardware</h3><p>ESP32, MQ135, MQ3, Arduino IDE, circuit design</p></div>
+            <div class="skill-card"><i class="fab fa-python"></i> <h3>Python</h3><p>Scripting, automation, backend logic for management systems</p></div>
+            <div class="skill-card"><i class="fab fa-git-alt"></i> <h3>Dev Tools</h3><p>Git, GitHub, VS Code, Embedded debugging</p></div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Blessed Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card"><i class="fas fa-chalkboard-teacher" style="font-size:2rem;"></i><h3>Virtual Lab – 1D Heat Conduction</h3><p>Interactive simulation for heat transfer.</p><div class="flex-wrap"><span class="badge-pill gold-pill">Featured</span></div><a href="#" class="btn inline-link" onclick="alert('GitHub: Heat Conduction Repo')">GitHub <i class="fab fa-github"></i></a></div>
+            <div class="project-card"><i class="fas fa-apple-alt"></i><h3>Smart Spoilage Detection</h3><p>ESP32 + MQ135/MQ3 gas sensor system.</p><div class="flex-wrap"><span class="badge-pill gold-pill">Featured</span></div><a href="#" class="btn inline-link" onclick="alert('IoT spoilage detection repo')">GitHub <i class="fab fa-github"></i></a></div>
+            <div class="project-card"><i class="fas fa-hospital-user"></i><h3>Hospital Patient Registry</h3><p>C program for admission & billing.</p><div class="flex-wrap"><span class="badge-pill">C</span></div><a href="#" class="btn inline-link" onclick="alert('C-based Hospital System')">GitHub <i class="fab fa-github"></i></a></div>
+            <div class="project-card"><i class="fas fa-users-cog"></i><h3>Employee Management System</h3><p>Python CLI with OOP & records.</p><div class="flex-wrap"><span class="badge-pill">Python</span></div><a href="#" class="btn inline-link" onclick="alert('Python Employee System')">GitHub <i class="fab fa-github"></i></a></div>
+            <div class="project-card"><i class="fas fa-sun"></i><h3>Solar-wind Physics Simulator</h3><p>Modeling solar wind interactions with magnetosphere.</p><div class="flex-wrap"><span class="badge-pill">Physics</span></div><a href="#" class="btn inline-link" onclick="alert('Solar-wind project details')">GitHub <i class="fab fa-github"></i></a></div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2 class="section-title">Schola Progenium</h2>
+        <div class="timeline">
+            <div class="timeline-item"><h3>🎓 B.Tech E&TC</h3><p>PCCOE, Pune | 2025 – present</p><span class="badge-pill">Current</span></div>
+            <div class="timeline-item"><h3>📚 HSC</h3><p>Sanjay Ghodawat Junior College, Atigre</p></div>
+            <div class="timeline-item"><h3>🏛️ CBSE (SSC)</h3><p>D. Y. PATIL's Shantiniketan, Kolhapur</p></div>
+        </div>
+    </section>
+
+    <!-- DEEDS & HONORS -->
+    <section id="achievements">
+        <h2 class="section-title">Deeds & Honors</h2>
+        <div class="certificate-gallery" id="certGallery">
+            <div class="cert-card" data-cert="spectrum_combined" data-cert-image="https://placehold.co/600x400/1c1013/d4af37?text=Spectrum+'26:+Blind+Coding,+Brain+Dasher+5th+Rank,+Appreciation">
+                <i class="fas fa-microscope"></i>
+                <h4>Spectrum '26 Technical Symposium</h4>
+                <p>Blind Coding · Brain Dasher (5th Rank) · Certificate of Appreciation</p>
+            </div>
+            <div class="cert-card" data-cert="knowjapan" data-cert-image="KnowJapan.jpg"><i class="fas fa-globe-asia"></i><h4>Know Japan 2026</h4><p>Cultural & Tech Exchange</p></div>
+            <div class="cert-card" data-cert="aura" data-cert-image="aura.jpg"><i class="fas fa-futbol"></i><h4>AURA - National Level</h4><p>Sports & Tech Fest</p></div>
+            <div class="cert-card" data-cert="tennis" data-cert-image="https://placehold.co/600x400/1c1013/d4af37?text=District+Tennis+Championship"><i class="fas fa-tennis-ball"></i><h4>District Tennis Championship</h4><p>Representative Player</p></div>
+            <div class="cert-card" data-cert="robotics" data-cert-image="robotics.jpg"><i class="fas fa-robot"></i><h4>Curious Minds - Robotics</h4><p>Certified Training</p></div>
+            <div class="cert-card" data-cert="spacecamp" data-cert-image="NATSKIES.jpg"><i class="fas fa-rocket"></i><h4>NATSKIES Space Camp</h4><p>Astronomy & Space Exploration</p></div>
+        </div>
+        <div style="margin-top: 1rem;">
+            <p><strong>Click any honour block to view certificate/image</strong> <i class="fas fa-image"></i></p>
+            <p class="upload-note"><i class="fas fa-info-circle"></i> <strong>How to add your images:</strong> Replace the <code style="background:#2a1a1a; padding:2px 6px; border-radius:6px;">data-cert-image="https://placehold.co/..."</code> URL with your actual image URL.</p>
+        </div>
+    </section>
+
+    <!-- Hobbies Section -->
+    <section id="hobbies">
+        <h2 class="section-title">Crusade Hobbies</h2>
+        <div class="hobby-grid">
+            <div class="hobby-block"><i class="fas fa-tennis-ball"></i><h3>Lawn Tennis</h3><p>District level player, relentless agility and tactical strikes on the court.</p></div>
+            <div class="hobby-block"><i class="fas fa-chart-line"></i><h3>Business & Entrepreneurship</h3><p>Strategic planning, market analysis & forging economic conquests.</p></div>
+            <div class="hobby-block"><i class="fas fa-dice-d6"></i><h3>Warhammer 40k</h3><p>Collecting, painting miniatures, and tabletop crusades for the Emperor.</p></div>
+            <div class="hobby-block"><i class="fas fa-users"></i><h3>Family & Friends</h3><p>Building brotherhood, loyalty and tactical camaraderie.</p></div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Send Astropathic Message</h2>
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <p><i class="fas fa-envelope" style="margin-right: 8px; color: var(--accent-gold);"></i> sharvinbhoje@gmail.com</p>
+                <p style="margin-top: 12px;"><i class="fas fa-map-marker-alt" style="margin-right: 8px; color: var(--accent-gold);"></i> Pune, Maharashtra</p>
+                <div class="social-icons" style="margin: 1.5rem 0;">
+                    <a href="https://github.com/ghostpelt86" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/sharvin-bhoje-ab8b8a391/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <hr>
+                <p><i class="fas fa-shield-halbed"></i> "For the Omnissiah"</p>
+            </div>
+            <div class="contact-form-container">
+                <form id="contactForm">
+                    <input type="text" placeholder="Your Name" id="contactName" required>
+                    <input type="email" placeholder="Email Address" id="contactEmail" required>
+                    <textarea rows="4" placeholder="Your Message to the Chapter" id="contactMsg"></textarea>
+                    <button type="submit" class="btn">Send Message <i class="fas fa-paper-plane"></i></button>
+                    <p id="formFeedback" style="margin-top: 12px; color: #d4af37;"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+<footer>© 2025 Sharvin Viren Bhoje — For the Emperor. Cog and Blade.</footer>
+<button class="back-to-top" id="backToTop"><i class="fas fa-skull"></i></button>
+
+<!-- Lightbox for Certificates -->
+<div id="certLightbox" class="lightbox">
+    <div class="lightbox-content">
+        <img id="lightboxImg" src="" alt="Certificate Image">
+        <h4 id="lightboxTitle" class="cert-title-lightbox"></h4>
+        <button id="closeLightbox" class="close-lightbox-btn">Close</button>
+    </div>
+</div>
+
+<script>
+    // POWER SWORD CURSOR
+    const swordCursor = document.querySelector('.cursor-power-sword');
+    const ringCursor = document.querySelector('.cursor-ring-glow');
+    document.addEventListener('mousemove', (e) => {
+        swordCursor.style.left = e.clientX + 'px';
+        swordCursor.style.top = e.clientY + 'px';
+        ringCursor.style.left = e.clientX + 'px';
+        ringCursor.style.top = e.clientY + 'px';
+    });
+    document.body.addEventListener('mouseleave', () => { swordCursor.style.opacity = 0; ringCursor.style.opacity = 0; });
+    document.body.addEventListener('mouseenter', () => { swordCursor.style.opacity = 1; ringCursor.style.opacity = 0.8; });
+
+    // Typewriter effect
+    const roles = ["IoT Techmarine", "Circuit Forgemaster", "C++ Crusader", "Tennis Progenitor", "Warhammer Tactician"];
+    let idx = 0, charIdx = 0, isDeleting = false;
+    const typewriterEl = document.getElementById('typewriter');
+    function typeEffect() {
+        const current = roles[idx];
+        if (isDeleting) typewriterEl.textContent = current.substring(0, charIdx--);
+        else typewriterEl.textContent = current.substring(0, charIdx++);
+        if (!isDeleting && charIdx === current.length) isDeleting = true;
+        else if (isDeleting && charIdx === 0) { isDeleting = false; idx = (idx + 1) % roles.length; }
+        setTimeout(typeEffect, isDeleting ? 50 : 120);
+    } typeEffect();
+
+    // Scroll reveal
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.2 });
+    sections.forEach(sec => observer.observe(sec));
+
+    // Navbar & hamburger
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
+    document.querySelectorAll('.nav-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const targetId = link.getAttribute('href').substring(1); document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' }); navMenu.classList.remove('active'); }); });
+    window.addEventListener('scroll', () => { 
+        let fromTop = window.scrollY + 100;
+        document.querySelectorAll('.nav-link').forEach(link => { let section = document.querySelector(link.getAttribute('href')); if (section && section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) link.classList.add('active'); else link.classList.remove('active'); });
+        let backBtn = document.getElementById('backToTop'); if (window.scrollY > 500) backBtn.style.opacity = '1'; else backBtn.style.opacity = '0';
+    });
+    document.getElementById('backToTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Certificate Lightbox
+    const lightbox = document.getElementById('certLightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const certCards = document.querySelectorAll('.cert-card');
+    
+    const combinedCertSVG = `<svg viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg"><rect width="500" height="380" fill="#1c1013"/><text x="30" y="45" fill="#d4af37" font-size="22" font-weight="bold">Spectrum '26 Technical Symposium</text><text x="30" y="85" fill="#e6d5b8" font-size="15">🏆 Blind Coding - National Level Participant</text><text x="30" y="125" fill="#e6d5b8" font-size="15">🧠 Brain Dasher - Secured 5th Rank Overall</text><text x="30" y="165" fill="#e6d5b8" font-size="15">📜 Certificate of Appreciation</text><text x="30" y="205" fill="#cbbf91" font-size="13">Dept. of Applied Science &amp; Humanities, PCCOE</text><text x="30" y="255" fill="#b81c2c" font-size="14">Awarded to Sharvin Viren Bhoje</text><text x="30" y="295" fill="#cbbf91" font-size="12">For outstanding technical excellence at National Level Symposium</text><text x="30" y="335" fill="#d4af37" font-size="11">PCCOE, Pune | Spectrum '26</text></svg>`;
+    
+    certCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const certType = card.getAttribute('data-cert');
+            let certImageURL = card.getAttribute('data-cert-image');
+            const certName = card.querySelector('h4')?.innerText || "Certificate";
+            
+            if (certType === 'spectrum_combined') {
+                const blob = new Blob([combinedCertSVG], {type: 'image/svg+xml'});
+                const url = URL.createObjectURL(blob);
+                lightboxImg.src = url;
+                lightboxTitle.innerText = "Spectrum '26 - Blind Coding, Brain Dasher (5th Rank) & Appreciation Certificate";
+                lightbox.classList.add('active');
+                lightboxImg.onload = () => URL.revokeObjectURL(url);
+            } else if (certImageURL && certImageURL !== '#') {
+                lightboxImg.src = certImageURL;
+                lightboxTitle.innerText = certName;
+                lightbox.classList.add('active');
+            } else {
+                lightboxImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 280'%3E%3Crect width='400' height='280' fill='%231c1013'/%3E%3Ctext x='30' y='60' fill='%23d4af37' font-size='20'%3ECertificate%3C/text%3E%3Ctext x='30' y='110' fill='%23e6d5b8'%3E" + encodeURIComponent(certName) + "%3C/text%3E%3C/svg%3E";
+                lightboxTitle.innerText = certName;
+                lightbox.classList.add('active');
+            }
+        });
+    });
+    document.getElementById('closeLightbox').addEventListener('click', () => lightbox.classList.remove('active'));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('active'); });
+
+    // Contact form
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('contactName').value;
+        if(name.trim() === "") return;
+        document.getElementById('formFeedback').innerHTML = '<i class="fas fa-check-circle"></i> Vox message sent! The Chapter shall respond.';
+        document.getElementById('contactForm').reset();
+        setTimeout(() => { document.getElementById('formFeedback').innerHTML = ''; }, 4000);
+    });
+    document.querySelectorAll('.skill-card, .project-card, .stat-card, .academic-card').forEach((c,i) => c.style.transitionDelay = `${i*0.05}s`);
+</script>
+</body>
+</html>
